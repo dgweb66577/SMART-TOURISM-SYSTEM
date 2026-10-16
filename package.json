@@ -1,0 +1,15 @@
+{
+  "name": "goa-smart-tourism-root",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "start": "npm --prefix frontend run start",
+    "lint": "npm --prefix frontend run lint",
+    "supabase:start": "supabase start",
+    "supabase:status": "supabase status",
+    "supabase:stop": "supabase stop",
+    "docker:dev": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up"
+  }
+}

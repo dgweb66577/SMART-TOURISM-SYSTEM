@@ -1,0 +1,31 @@
+services:
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    volumes:
+      - ./ai-service:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - QDRANT_URL=http://qdrant:6333
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - SUPABASE_INTERNAL_URL=${SUPABASE_INTERNAL_URL:-http://host.docker.internal:54321}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - AI_SERVICE_URL=${AI_SERVICE_URL:-http://ai-service:8000}
+      - QDRANT_URL=${QDRANT_URL:-http://qdrant:6333}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: npm run dev
