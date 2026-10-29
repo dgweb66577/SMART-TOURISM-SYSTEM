@@ -4,15 +4,19 @@ import React, { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import {
-  Palmtree,
-  Search,
   Compass,
+  Search,
   User as UserIcon,
   Home,
   Luggage,
   LayoutDashboard,
   LogOut,
   ChevronDown,
+  UtensilsCrossed,
+  Sparkles,
+  Share2,
+  Menu,
+  X,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/lib/stores/authStore'
@@ -29,6 +33,8 @@ export default function UserLayout({
   const { user, role, clearAuth, initialize, setUser } = useAuthStore()
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   // Initialize auth state and subscribe to auth changes
   useEffect(() => {
@@ -81,52 +87,102 @@ export default function UserLayout({
 
   const navItems = [
     { label: 'Home', href: '/', icon: Home },
+    { label: 'Restaurants', href: '/restaurants', icon: UtensilsCrossed },
     ...(user ? [{ label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard }] : []),
     { label: 'Explore', href: '/explore', icon: Compass },
     { label: 'Trips', href: '/trips', icon: Luggage },
     { label: 'Profile', href: '/profile', icon: UserIcon },
   ]
 
+  const headerLinks = [
+    { label: 'Activities', href: '/explore?cat=activities' },
+    { label: 'Rentals', href: '/explore?cat=rentals' },
+    { label: 'Taxi', href: '/explore?cat=taxi' },
+    { label: 'Places', href: '/explore' },
+    { label: 'Packages', href: '/explore?cat=packages' },
+    { label: 'Events', href: '/explore?cat=events' },
+    { label: 'Restaurants', href: '/restaurants', highlight: true },
+  ]
+
+  const handleShare = () => {
+    if (typeof window !== 'undefined') {
+      navigator.clipboard.writeText(window.location.href)
+      toast.success('Page link copied to clipboard!')
+    }
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-slate-900 pb-20 md:pb-0">
-      {/* Top Navbar */}
-      <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-          {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#0096C7] flex items-center justify-center text-white shadow-md shadow-sky-500/20">
-              <Palmtree className="h-5 w-5 text-amber-200" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-extrabold text-lg tracking-tight text-slate-900 leading-none">
-                Goa<span className="text-[#FF7B00]">Smart</span>
-              </span>
-              <span className="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">
-                Explore &bull; Stay &bull; Vibe
-              </span>
-            </div>
-          </Link>
+      {/* Top Navbar — goa.app style without app logo */}
+      <header className="sticky top-0 z-40 w-full border-b border-slate-200/90 bg-white/95 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+          {/* Left area: Clean minimal home link (NO APP LOGO as requested) */}
+          <div className="flex items-center gap-6">
+            <Link
+              href="/"
+              className="text-base font-bold tracking-tight text-slate-800 hover:text-[#EA580C] transition-colors"
+            >
+              Goa
+            </Link>
 
-          {/* Search Bar (Desktop) */}
-          <div className="hidden md:flex flex-1 max-w-md mx-4">
+            {/* Desktop Navigation Links (goa.app style) */}
+            <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+              {headerLinks.map((item) => {
+                const isActive =
+                  item.href === '/restaurants'
+                    ? pathname === '/restaurants'
+                    : pathname === item.href
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+                      isActive
+                        ? 'text-[#EA580C] font-semibold bg-orange-50'
+                        : item.highlight
+                        ? 'text-slate-800 hover:text-[#EA580C] hover:bg-orange-50/60 font-semibold'
+                        : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                )
+              })}
+            </nav>
+          </div>
+
+          {/* Center Search Bar */}
+          <div className="hidden md:flex flex-1 max-w-xs xl:max-w-sm mx-2">
             <div className="relative w-full">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
               <input
                 type="text"
-                placeholder="Search beaches, beach shacks, heritage forts, cafes..."
-                className="w-full h-10 pl-10 pr-4 rounded-full border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6] focus:bg-white transition-all"
+                placeholder="Search places, shacks, dishes..."
+                className="w-full h-9 pl-9 pr-4 text-xs rounded-full border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#EA580C] focus:bg-white transition-all"
               />
             </div>
           </div>
 
-          {/* Right Navigation & Auth State */}
+          {/* Right Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <Link href="/explore" className="hidden sm:inline-flex text-xs font-semibold text-slate-600 hover:text-[#0077B6] px-3 py-1.5 rounded-lg hover:bg-slate-50 transition-colors">
-              Destinations
-            </Link>
+            {/* Share button (as seen in goa.app) */}
+            <button
+              onClick={handleShare}
+              title="Share page"
+              className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors hidden sm:inline-flex"
+            >
+              <Share2 className="h-4 w-4" />
+            </button>
 
             {user && (
-              <Link href="/dashboard" className="hidden sm:inline-flex text-xs font-semibold text-sky-800 bg-sky-50 hover:bg-sky-100 px-3 py-1.5 rounded-lg transition-colors">
+              <Link
+                href="/dashboard"
+                className={`hidden sm:inline-flex text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${
+                  pathname === '/dashboard'
+                    ? 'text-orange-700 bg-orange-100'
+                    : 'text-slate-700 bg-slate-100 hover:bg-slate-200'
+                }`}
+              >
                 Dashboard
               </Link>
             )}
@@ -148,95 +204,133 @@ export default function UserLayout({
             )}
 
             {user ? (
-              <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex items-center gap-2">
                 <Button
                   id="direct-sign-out-btn"
                   size="sm"
                   variant="outline"
                   onClick={handleSignOut}
-                  className="flex items-center gap-1.5 text-xs font-semibold text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200 shadow-sm"
+                  className="flex items-center gap-1.5 text-xs font-semibold text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200 shadow-sm h-8 px-2.5"
                 >
                   <LogOut className="h-3.5 w-3.5" />
-                  <span>Sign Out</span>
+                  <span className="hidden sm:inline">Sign Out</span>
                 </Button>
 
                 <div className="relative" ref={dropdownRef}>
                   <button
                     id="user-menu-button"
                     onClick={() => setDropdownOpen((prev) => !prev)}
-                    className="flex items-center gap-1.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#0077B6] focus:ring-offset-2"
+                    className="flex items-center gap-1 rounded-full focus:outline-none focus:ring-2 focus:ring-[#EA580C] focus:ring-offset-2"
                     aria-haspopup="true"
                     aria-expanded={dropdownOpen}
                   >
-                  <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-[#0077B6] to-[#00B4D8] text-white flex items-center justify-center font-bold text-xs ring-2 ring-sky-100 hover:ring-sky-300 transition-all shadow-sm">
-                    {user.email ? user.email.charAt(0).toUpperCase() : 'U'}
-                  </div>
-                  <ChevronDown className={`h-3.5 w-3.5 text-slate-500 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {dropdownOpen && (
-                  <div
-                    id="user-dropdown-menu"
-                    className="absolute right-0 mt-2 w-52 rounded-2xl border border-slate-200/80 bg-white shadow-xl shadow-slate-200/60 py-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
-                    role="menu"
-                  >
-                    {/* User info header */}
-                    <div className="px-4 py-2.5 border-b border-slate-100">
-                      <p className="text-xs font-bold text-slate-900 truncate">{user.email}</p>
-                      <p className="text-[10px] text-slate-400 capitalize">{role?.replace('_', ' ') || 'Tourist'}</p>
+                    <div className="h-8 w-8 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                      {user.email ? user.email.charAt(0).toUpperCase() : 'U'}
                     </div>
+                    <ChevronDown className={`h-3.5 w-3.5 text-slate-500 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
+                  </button>
 
-                    <Link
-                      href="/profile"
-                      onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors"
-                      role="menuitem"
+                  {dropdownOpen && (
+                    <div
+                      id="user-dropdown-menu"
+                      className="absolute right-0 mt-2 w-52 rounded-2xl border border-slate-200/80 bg-white shadow-xl shadow-slate-200/60 py-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                      role="menu"
                     >
-                      <UserIcon className="h-3.5 w-3.5 text-slate-400" />
-                      My Profile
-                    </Link>
+                      <div className="px-4 py-2.5 border-b border-slate-100">
+                        <p className="text-xs font-bold text-slate-900 truncate">{user.email}</p>
+                        <p className="text-[10px] text-slate-400 capitalize">{role?.replace('_', ' ') || 'Tourist'}</p>
+                      </div>
 
-                    <Link
-                      href="/dashboard"
-                      onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors"
-                      role="menuitem"
-                    >
-                      <LayoutDashboard className="h-3.5 w-3.5 text-slate-400" />
-                      Dashboard
-                    </Link>
-
-                    <div className="border-t border-slate-100 mt-1 pt-1">
-                      <button
-                        id="sign-out-button"
-                        onClick={handleSignOut}
-                        className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 transition-colors"
+                      <Link
+                        href="/profile"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors"
                         role="menuitem"
                       >
-                        <LogOut className="h-3.5 w-3.5" />
-                        Sign Out
-                      </button>
+                        <UserIcon className="h-3.5 w-3.5 text-slate-400" />
+                        My Profile
+                      </Link>
+
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                        role="menuitem"
+                      >
+                        <LayoutDashboard className="h-3.5 w-3.5 text-slate-400" />
+                        Dashboard
+                      </Link>
+
+                      <Link
+                        href="/restaurants"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-orange-600 hover:bg-orange-50 transition-colors"
+                        role="menuitem"
+                      >
+                        <UtensilsCrossed className="h-3.5 w-3.5" />
+                        Restaurants
+                      </Link>
+
+                      <div className="border-t border-slate-100 mt-1 pt-1">
+                        <button
+                          id="sign-out-button"
+                          onClick={handleSignOut}
+                          className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 transition-colors"
+                          role="menuitem"
+                        >
+                          <LogOut className="h-3.5 w-3.5" />
+                          Sign Out
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
                 </div>
               </div>
             ) : (
               <div className="flex items-center gap-2">
                 <Link href="/login">
-                  <Button size="sm" variant="ghost" className="text-xs font-semibold text-slate-700">
+                  <Button size="sm" variant="ghost" className="text-xs font-semibold text-slate-700 h-8">
                     Sign In
                   </Button>
                 </Link>
                 <Link href="/signup">
-                  <Button size="sm" className="text-xs font-semibold bg-[#FF7B00] hover:bg-[#e06c00] text-white shadow-sm">
+                  <Button size="sm" className="text-xs font-semibold bg-[#EA580C] hover:bg-[#c2410c] text-white shadow-sm h-8">
                     Get Started
                   </Button>
                 </Link>
               </div>
             )}
+
+            {/* Mobile menu trigger */}
+            <button
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              className="lg:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile dropdown drawer */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-1">
+            {headerLinks.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block px-3 py-2 rounded-lg text-sm font-medium ${
+                  pathname === item.href
+                    ? 'bg-orange-50 text-[#EA580C] font-semibold'
+                    : 'text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        )}
       </header>
 
       {/* Main Content Area */}
@@ -258,7 +352,7 @@ export default function UserLayout({
                 href={item.href}
                 className={`flex flex-col items-center justify-center py-1.5 px-3 rounded-lg transition-colors ${
                   isActive
-                    ? 'text-[#0077B6] font-bold'
+                    ? 'text-[#EA580C] font-bold'
                     : 'text-slate-500 hover:text-slate-800'
                 }`}
               >

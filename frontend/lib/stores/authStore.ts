@@ -61,7 +61,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         return existingRole
       }
 
-      const roles = data.map((r) => r.role)
+      const roles = data.map((r: any) => r.role)
       let resolvedRole: UserRole = 'user'
       if (roles.includes('platform_admin')) {
         resolvedRole = 'platform_admin'
