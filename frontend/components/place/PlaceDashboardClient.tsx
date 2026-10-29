@@ -50,8 +50,8 @@ export function PlaceDashboardClient() {
 
   const fetchMyPlace = useCallback(async (uid: string) => {
     const supabase = createClient()
-    const { data, error } = await supabase
-      .from('places')
+    const { data, error } = await (supabase
+      .from('places') as any)
       .select('*')
       .eq('owner_id', uid)
       .order('created_at', { ascending: false })
@@ -111,20 +111,20 @@ export function PlaceDashboardClient() {
         status: 'pending' as const,
       }
 
-      let result
+      let result: any
 
       if (myPlace) {
         // Update existing place
-        result = await supabase
-          .from('places')
+        result = await (supabase
+          .from('places') as any)
           .update(payload)
           .eq('id', myPlace.id)
           .select()
           .single()
       } else {
         // Create new place
-        result = await supabase
-          .from('places')
+        result = await (supabase
+          .from('places') as any)
           .insert(payload)
           .select()
           .single()

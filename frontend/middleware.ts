@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
       .eq('user_id', user.id)
 
     if (roleRecords && roleRecords.length > 0) {
-      const roles = roleRecords.map((r) => r.role)
+      const roles = roleRecords.map((r: any) => r.role)
       if (roles.includes('platform_admin')) {
         role = 'platform_admin'
       } else if (roles.includes('place_incharge')) {

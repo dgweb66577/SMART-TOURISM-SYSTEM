@@ -73,7 +73,7 @@ export default async function ExplorePage() {
       .order('created_at', { ascending: false })
 
     if (data && data.length > 0) {
-      approvedDbPlaces = data.map((p) => ({
+      approvedDbPlaces = data.map((p: any) => ({
         id: p.id,
         name: p.name,
         category: p.category,

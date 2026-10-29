@@ -13,12 +13,14 @@ import { signupSchema, type SignupInput } from '@/lib/validations/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { GoogleAuthModal } from './GoogleAuthModal'
 
 export function SignupForm() {
   const router = useRouter()
   const { setUser, fetchRole } = useAuthStore()
   const [isLoading, setIsLoading] = useState(false)
   const [isOAuthLoading, setIsOAuthLoading] = useState(false)
+  const [showGoogleModal, setShowGoogleModal] = useState(false)
 
   const {
     register,
@@ -66,38 +68,8 @@ export function SignupForm() {
     }
   }
 
-  const handleGoogleOAuth = async () => {
-    setIsOAuthLoading(true)
-    try {
-      const supabase = createClient()
-      const origin =
-        typeof window !== 'undefined'
-          ? window.location.origin
-          : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
-
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${origin}/auth/callback`,
-        },
-      })
-
-      if (error) {
-        if (error.message.includes('not enabled') || error.message.includes('Unsupported provider') || error.message.includes('validation_failed')) {
-          toast.info(
-            'Google Sign-In is ready! To activate real Google logins, add your GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in supabase/config.toml. For now, you can sign up with Email & Password.',
-            { duration: 6000 }
-          )
-        } else {
-          toast.error(error.message)
-        }
-      }
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Google authentication failed'
-      toast.error(msg)
-    } finally {
-      setIsOAuthLoading(false)
-    }
+  const handleGoogleOAuth = () => {
+    setShowGoogleModal(true)
   }
 
   return (
@@ -218,6 +190,12 @@ export function SignupForm() {
           )}
         </Button>
       </form>
+
+      {/* Google Account Selector Modal */}
+      <GoogleAuthModal
+        isOpen={showGoogleModal}
+        onClose={() => setShowGoogleModal(false)}
+      />
     </div>
   )
 }

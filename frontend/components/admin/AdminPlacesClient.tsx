@@ -65,8 +65,8 @@ export function AdminPlacesClient() {
     setUpdatingId(id)
     try {
       const supabase = createClient()
-      const { error } = await supabase
-        .from('places')
+      const { error } = await (supabase
+        .from('places') as any)
         .update({ status: newStatus, updated_at: new Date().toISOString() })
         .eq('id', id)
 
