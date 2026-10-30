@@ -13,14 +13,12 @@ import { signupSchema, type SignupInput } from '@/lib/validations/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { GoogleAuthModal } from './GoogleAuthModal'
 
 export function SignupForm() {
   const router = useRouter()
   const { setUser, fetchRole } = useAuthStore()
   const [isLoading, setIsLoading] = useState(false)
   const [isOAuthLoading, setIsOAuthLoading] = useState(false)
-  const [showGoogleModal, setShowGoogleModal] = useState(false)
 
   const {
     register,
@@ -68,8 +66,36 @@ export function SignupForm() {
     }
   }
 
-  const handleGoogleOAuth = () => {
-    setShowGoogleModal(true)
+  const handleGoogleOAuth = async () => {
+    setIsOAuthLoading(true)
+    try {
+      const supabase = createClient()
+      const origin =
+        typeof window !== 'undefined'
+          ? window.location.origin
+          : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${origin}/auth/callback`,
+          queryParams: {
+            prompt: 'select_account',
+          },
+        },
+      })
+
+      if (error) {
+        toast.error(error.message)
+        setIsOAuthLoading(false)
+      } else if (data?.url) {
+        window.location.href = data.url
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Google authentication failed'
+      toast.error(msg)
+      setIsOAuthLoading(false)
+    }
   }
 
   return (
@@ -190,12 +216,6 @@ export function SignupForm() {
           )}
         </Button>
       </form>
-
-      {/* Google Account Selector Modal */}
-      <GoogleAuthModal
-        isOpen={showGoogleModal}
-        onClose={() => setShowGoogleModal(false)}
-      />
     </div>
   )
 }

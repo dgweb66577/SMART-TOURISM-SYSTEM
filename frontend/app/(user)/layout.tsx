@@ -79,7 +79,7 @@ export default function UserLayout({
       clearAuth()
       setDropdownOpen(false)
       toast.success('Signed out successfully')
-      router.push('/login')
+      window.location.href = '/login'
     } catch {
       toast.error('Failed to sign out. Please try again.')
     }

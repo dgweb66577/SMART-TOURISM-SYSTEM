@@ -177,7 +177,7 @@ Goa Tourism PWA/
 │   │   ├── auth/callback/       # OAuth callback handler
 │   │   └── layout.tsx           # Global root layout
 │   ├── components/              # Modular UI components
-│   │   ├── auth/                # LoginForm, SignupForm, GoogleAuthModal
+│   │   ├── auth/                # LoginForm, SignupForm
 │   │   ├── dashboard/           # TouristDashboardClient
 │   │   ├── restaurants/         # RestaurantsViewClient, RestaurantDetailClient
 │   │   └── ui/                  # Reusable UI elements (Button, Card, Input, Label, Sonner)
