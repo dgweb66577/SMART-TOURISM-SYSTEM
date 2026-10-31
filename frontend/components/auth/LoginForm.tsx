@@ -30,6 +30,23 @@ export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [isOAuthLoading, setIsOAuthLoading] = useState(false)
 
+  // Intercept the browser Back button while on the login page so it goes to Home ('/')
+  // instead of bouncing back to external OAuth screens like accounts.google.com
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    window.history.pushState({ auth: 'login' }, '', window.location.href)
+
+    const handlePopState = () => {
+      window.location.replace('/')
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, [])
+
   // Standard email/password form
   const {
     register: registerPassword,

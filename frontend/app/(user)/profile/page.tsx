@@ -24,7 +24,7 @@ export default function ProfilePage() {
       await supabase.auth.signOut()
       clearAuth()
       toast.success('Signed out successfully')
-      router.push('/login')
+      window.location.replace('/login')
     } catch {
       toast.error('Failed to sign out')
     }

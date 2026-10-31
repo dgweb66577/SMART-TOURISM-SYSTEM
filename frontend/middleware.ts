@@ -93,10 +93,14 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // 4. /profile, /trips -> any authenticated user
+  // 4. /dashboard, /profile, /trips -> any authenticated user
   if (isUserProtectedRoute) {
     if (!user) {
-      return redirectToLogin()
+      // Redirect to home page so going back after signout safely returns to home
+      const homeUrl = request.nextUrl.clone()
+      homeUrl.pathname = '/'
+      homeUrl.search = ''
+      return NextResponse.redirect(homeUrl)
     }
   }
 

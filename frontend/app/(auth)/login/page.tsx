@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { LoginForm } from '@/components/auth/LoginForm'
-import { SunMedium, Loader2, Store, User, Shield } from 'lucide-react'
+import { SunMedium, Loader2, Store, User, Shield, ArrowLeft } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Sign In — Goa Smart Tourism',
@@ -13,6 +13,17 @@ export const metadata: Metadata = {
 export default function LoginPage() {
   return (
     <div className="w-full space-y-4">
+      {/* Back button above card */}
+      <div className="flex items-center">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-[#0077B6] bg-white/80 hover:bg-white px-3 py-1.5 rounded-full border border-slate-200/80 shadow-sm transition-all"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Back to Home
+        </Link>
+      </div>
+
       {/* Login Card */}
       <Card className="border-slate-200/90 shadow-xl shadow-slate-200/50 backdrop-blur-sm bg-white/95">
         <CardHeader className="space-y-3 text-center pb-6">
@@ -87,6 +98,17 @@ export default function LoginPage() {
               <span className="font-semibold text-slate-700">Platform Admin</span> access is
               restricted. Contact your system administrator for credentials.
             </p>
+          </div>
+
+          {/* Back to Home Link */}
+          <div className="pt-2 text-center">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-[#0077B6] transition-colors"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              Back to Home Page
+            </Link>
           </div>
         </CardContent>
       </Card>

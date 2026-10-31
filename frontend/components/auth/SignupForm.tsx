@@ -20,6 +20,22 @@ export function SignupForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [isOAuthLoading, setIsOAuthLoading] = useState(false)
 
+  // Intercept the browser Back button while on the signup page so it goes to Home ('/')
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    window.history.pushState({ auth: 'signup' }, '', window.location.href)
+
+    const handlePopState = () => {
+      window.location.replace('/')
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, [])
+
   const {
     register,
     handleSubmit,
