@@ -57,6 +57,20 @@ export function TouristDashboardClient() {
   const [aiResponse, setAiResponse] = useState<string | null>(null)
   const [isAiLoading, setIsAiLoading] = useState(false)
 
+  // Redirect unauthenticated visitors back to the home page
+  useEffect(() => {
+    const checkAuth = async () => {
+      const supabase = createClient()
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      if (!session?.user) {
+        window.location.replace('/')
+      }
+    }
+    checkAuth()
+  }, [])
+
   // Carousel ref for dashboard featured dining offers
   const offersScrollRef = useRef<HTMLDivElement>(null)
 

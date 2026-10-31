@@ -39,7 +39,7 @@ export function PlaceSidebar() {
       await supabase.auth.signOut()
       clearAuth()
       toast.success('Signed out')
-      router.push('/login')
+      window.location.replace('/login')
     } catch {
       toast.error('Failed to sign out')
     }

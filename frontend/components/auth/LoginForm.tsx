@@ -19,7 +19,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import type { UserRole } from '@/lib/supabase/types'
-import { GoogleAuthModal } from './GoogleAuthModal'
 
 export function LoginForm() {
   const router = useRouter()
@@ -30,7 +29,23 @@ export function LoginForm() {
   const [isMagicLinkMode, setIsMagicLinkMode] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isOAuthLoading, setIsOAuthLoading] = useState(false)
-  const [showGoogleModal, setShowGoogleModal] = useState(false)
+
+  // Intercept the browser Back button while on the login page so it goes to Home ('/')
+  // instead of bouncing back to external OAuth screens like accounts.google.com
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    window.history.pushState({ auth: 'login' }, '', window.location.href)
+
+    const handlePopState = () => {
+      window.location.replace('/')
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, [])
 
   // Standard email/password form
   const {
@@ -131,9 +146,40 @@ export function LoginForm() {
     }
   }
 
-  const handleGoogleOAuth = () => {
-    // Open Google Account Chooser immediately without redirecting to raw 127.0.0.1 endpoint
-    setShowGoogleModal(true)
+  const handleGoogleOAuth = async () => {
+    setIsOAuthLoading(true)
+    try {
+      const supabase = createClient()
+      const origin =
+        typeof window !== 'undefined'
+          ? window.location.origin
+          : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+
+      const callbackUrl = redirectTo
+        ? `${origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`
+        : `${origin}/auth/callback`
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: callbackUrl,
+          queryParams: {
+            prompt: 'select_account',
+          },
+        },
+      })
+
+      if (error) {
+        toast.error(error.message)
+        setIsOAuthLoading(false)
+      } else if (data?.url) {
+        window.location.href = data.url
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Google authentication failed'
+      toast.error(msg)
+      setIsOAuthLoading(false)
+    }
   }
 
   return (
@@ -288,13 +334,6 @@ export function LoginForm() {
           </Button>
         </form>
       )}
-
-      {/* Google Account Selector Modal */}
-      <GoogleAuthModal
-        isOpen={showGoogleModal}
-        onClose={() => setShowGoogleModal(false)}
-        redirectTo={redirectTo}
-      />
     </div>
   )
 }
