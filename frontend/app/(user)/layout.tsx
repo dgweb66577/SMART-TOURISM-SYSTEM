@@ -87,9 +87,9 @@ export default function UserLayout({
 
   const navItems = [
     { label: 'Home', href: '/', icon: Home },
+    { label: 'Places', href: '/places', icon: Compass },
     { label: 'Restaurants', href: '/restaurants', icon: UtensilsCrossed },
     ...(user ? [{ label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard }] : []),
-    { label: 'Explore', href: '/explore', icon: Compass },
     { label: 'Trips', href: '/trips', icon: Luggage },
     { label: 'Profile', href: '/profile', icon: UserIcon },
   ]
@@ -98,7 +98,7 @@ export default function UserLayout({
     { label: 'Activities', href: '/explore?cat=activities' },
     { label: 'Rentals', href: '/explore?cat=rentals' },
     { label: 'Taxi', href: '/explore?cat=taxi' },
-    { label: 'Places', href: '/explore' },
+    { label: 'Places', href: '/places' },
     { label: 'Packages', href: '/explore?cat=packages' },
     { label: 'Events', href: '/explore?cat=events' },
     { label: 'Restaurants', href: '/restaurants', highlight: true },
@@ -116,11 +116,11 @@ export default function UserLayout({
       {/* Top Navbar — goa.app style without app logo */}
       <header className="sticky top-0 z-40 w-full border-b border-slate-200/90 bg-white/95 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-          {/* Left area: Clean minimal home link (NO APP LOGO as requested) */}
+          {/* Left area: Clean minimal brand title without goa.app icon */}
           <div className="flex items-center gap-6">
             <Link
               href="/"
-              className="text-base font-bold tracking-tight text-slate-800 hover:text-[#EA580C] transition-colors"
+              className="text-xl font-black tracking-tight text-slate-900 hover:text-[#EA580C] transition-colors"
             >
               Goa
             </Link>
@@ -131,6 +131,8 @@ export default function UserLayout({
                 const isActive =
                   item.href === '/restaurants'
                     ? pathname === '/restaurants'
+                    : item.href === '/places'
+                    ? pathname === '/places' || pathname === '/explore'
                     : pathname === item.href
                 return (
                   <Link
@@ -259,6 +261,16 @@ export default function UserLayout({
                       >
                         <LayoutDashboard className="h-3.5 w-3.5 text-slate-400" />
                         Dashboard
+                      </Link>
+
+                      <Link
+                        href="/places"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                        role="menuitem"
+                      >
+                        <Compass className="h-3.5 w-3.5 text-slate-400" />
+                        Explore Places
                       </Link>
 
                       <Link
