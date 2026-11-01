@@ -100,7 +100,7 @@ export default function UserLayout({
     { label: 'Taxi', href: '/explore?cat=taxi' },
     { label: 'Places', href: '/places' },
     { label: 'Packages', href: '/explore?cat=packages' },
-    { label: 'Events', href: '/explore?cat=events' },
+    { label: 'Events', href: '/events' },
     { label: 'Restaurants', href: '/restaurants', highlight: true },
   ]
 
@@ -133,7 +133,7 @@ export default function UserLayout({
                     ? pathname === '/restaurants'
                     : item.href === '/places'
                     ? pathname === '/places' || pathname === '/explore'
-                    : pathname === item.href
+                    : item.href === '/events' ? pathname.startsWith('/events') : pathname === item.href
                 return (
                   <Link
                     key={item.label}
