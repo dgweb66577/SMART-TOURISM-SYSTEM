@@ -208,10 +208,10 @@ export default function UserHomePage() {
             </p>
           </div>
           <Link
-            href="/explore"
-            className="text-xs font-bold text-[#0077B6] hover:underline flex items-center gap-1"
+            href="/places"
+            className="text-xs font-bold text-[#EA580C] hover:underline flex items-center gap-1"
           >
-            View all <ArrowRight className="h-3.5 w-3.5" />
+            View all places <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
 

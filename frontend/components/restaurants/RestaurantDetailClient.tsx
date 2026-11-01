@@ -34,6 +34,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
+import RatingPieChart from '@/components/ui/RatingPieChart'
 import {
   RestaurantDetail,
   RESTAURANTS_DATA,
@@ -830,7 +831,7 @@ export function RestaurantDetailClient({ restaurant }: Props) {
             )}
 
             {/* ═══════════════════════════════════════════════════════ */}
-            {/* 5. REVIEWS SECTION                                    */}
+            {/* 5. REVIEWS SECTION & PIE CHART                          */}
             {/* ═══════════════════════════════════════════════════════ */}
             <div className="space-y-6 pt-4 border-t border-slate-100">
               <div className="flex items-center justify-between">
@@ -847,6 +848,14 @@ export function RestaurantDetailClient({ restaurant }: Props) {
                   <span>{restaurant.rating} / 5.0</span>
                 </div>
               </div>
+
+              {/* Dynamic Color-Coded Ratings Pie Chart */}
+              <RatingPieChart
+                ratings={reviewsList.map((r) => r.rating)}
+                totalReviewsCount={restaurant.reviewsCount + reviewsList.length - restaurant.reviews.length}
+                averageRating={restaurant.rating}
+                title="Diner Ratings Breakdown (Color-Coded Pie Chart)"
+              />
 
               <div className="space-y-4">
                 {reviewsList.map((rev) => (

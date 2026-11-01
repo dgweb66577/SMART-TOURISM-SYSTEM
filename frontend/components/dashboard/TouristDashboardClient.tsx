@@ -351,7 +351,7 @@ export function TouristDashboardClient() {
                     <UtensilsCrossed className="h-4 w-4" />
                     Browse Restaurants & Offers
                   </button>
-                  <Link href="/explore">
+                  <Link href="/places">
                     <Button
                       variant="outline"
                       className="bg-white/10 hover:bg-white/20 text-white border-white/30 text-xs font-semibold gap-1.5"
@@ -670,7 +670,7 @@ export function TouristDashboardClient() {
                   Live database approved beach venues and heritage spots
                 </p>
               </div>
-              <Link href="/explore">
+              <Link href="/places">
                 <Button variant="ghost" size="sm" className="text-xs text-[#EA580C] font-bold gap-1">
                   Browse All <ChevronRight className="h-3.5 w-3.5" />
                 </Button>
@@ -876,7 +876,7 @@ export function TouristDashboardClient() {
               </div>
               <h4 className="font-bold text-slate-900 text-sm">Palolem Beach</h4>
               <p className="text-xs text-slate-500">Canacona, South Goa</p>
-              <Link href="/explore" className="text-xs font-bold text-slate-700 mt-2 block">
+              <Link href="/places" className="text-xs font-bold text-slate-700 mt-2 block">
                 View Details &rarr;
               </Link>
             </div>
@@ -888,7 +888,7 @@ export function TouristDashboardClient() {
               </div>
               <h4 className="font-bold text-slate-900 text-sm">Aguada Fort</h4>
               <p className="text-xs text-slate-500">Sinquerim, Candolim</p>
-              <Link href="/explore" className="text-xs font-bold text-slate-700 mt-2 block">
+              <Link href="/places" className="text-xs font-bold text-slate-700 mt-2 block">
                 View Details &rarr;
               </Link>
             </div>

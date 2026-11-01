@@ -1,216 +1,190 @@
-# Goa Tourism PWA — Smart Travel & Dining Platform
+# Goa Tourism PWA — Smart Travel, Places & Dining Platform
 
-A full-stack, mobile-first Progressive Web App (PWA) inspired by **[goa.app](https://goa.app)**, crafted for smart tourism and dining across Goa. Engineered with **Next.js 14 (App Router)**, **TypeScript**, **Tailwind CSS**, **Supabase Auth & PostgreSQL (RBAC)**, **Qdrant Vector Database**, and a **FastAPI** AI recommendation microservice.
-
----
-
-## 🌟 Key Features
-
-### 🍽️ 1. Food & Restaurant Discovery (`/restaurants`)
-- **Category Filter Pills**: Quick filter by *All Types*, *Casual Dining*, *Family Style*, *Pure Vegetarian*, *Beach Shacks*, *Multi Cuisine*, and *Boutique Cafes*.
-- **Featured Dining Offers Carousel**: Horizontal scroll carousel showcasing exclusive restaurant partner discounts (*Flat 10% Off*, *Flat 15% Off*, *Flat 20% Off*) with brand badges.
-- **Advanced Filtering & Search**: Real-time search by dish or venue name, regional filter (*North Goa*, *South Goa*, *Panaji*), and dietary filter (*All*, *Veg*, *Non-Veg*).
-- **Interactive Restaurant Cards**: High-res imagery, rating & review badges, cost for two, "Must Try" highlights, quick *Menu* modal, *Book Table* modal, and direct *Details* navigation.
+A full-stack, mobile-first Progressive Web App (PWA) inspired by **[goa.app](https://goa.app)**, engineered for smart tourism, destination discovery, verified reviews, and dining across Goa. Built with **Next.js 14 (App Router)**, **TypeScript**, **Tailwind CSS**, **Supabase Auth & PostgreSQL**, **Qdrant Vector Database**, and a **FastAPI** AI recommendation microservice.
 
 ---
 
-### 📍 2. Restaurant Detail Pages (`/restaurants/[id]` & `/restaurant/[id]`)
-Faithfully styled after **goa.app** restaurant pages (e.g., *MO's Cafe Panjim*, *Dropiet Candolim*, *1961 Fontainhas*, *Fortune's Feast*, *Gunpowder Assagao*):
-- **Hero Banner & Signature Logo Badge**: Full-width rounded hero card with image gallery, gallery thumbnail strip, and the center-left white logo box.
-- **Interactive OFFERS Section**:
-  - Distinctive peach-colored cards with orange accent borders (`border-l-[#EA580C] bg-[#FFF7ED]`).
-  - **`🔒 OFFER LOCKED / UNLOCK NOW`** buttons: Clicking an offer unlocks the promo code, copies it to the clipboard, and updates the status to **`✓ UNLOCKED`**.
-  - **HOW TO REDEEM OFFERS ?** card with numbered steps and quick coupon copy.
-- **Curated Nearby Things to Do**: Highlights nearby landmarks and cultural spots (e.g. *Kala Academy*, *Immaculate Conception Church*, *Fontainhas Latin Quarter*).
-- **Google Maps Location Embed**:
-  - Exact street address display.
-  - Interactive Google Maps iframe centered on the venue's location with a red pin.
-  - Floating **`Open in Maps ↗`** button for instant one-click navigation in Google Maps.
-- **Photos & Menu Tabs**:
-  - **Photos Tab**: Interactive photo gallery grid with a click-to-preview full-screen modal.
-  - **Menu Tab**: Categorized chef menu with dietary filters, item descriptions, and "+ Add" live bill calculator.
-- **Sticky Table Reservation Widget**:
-  - Date selector (*Today*, *Tomorrow*, etc.).
-  - Party size selector (1 to 8+ guests).
-  - Time slot selection and seating preference (*Indoor AC*, *Garden Terrace*).
-  - Reservation confirmation with unique booking pass generator (`GOA-XXXXXX`).
-- **Verified Reviews & Form**: Real traveler reviews + interactive star rating and review submission form.
-- **Weekly Opening Hours Schedule**: Day-by-day hours with the current day highlighted in orange.
-- **Similar Restaurants Grid**: Browse other curated Goa dining venues.
+## 🌴 Key Features
+
+### 📍 1. Places & Attractions Discovery (`/places`)
+- **46 Verified Destinations**: All major destinations across North Goa, South Goa, and Panaji mapped directly with official data and signed Google Cloud Storage galleries from `goa.app`.
+- **Category Banners & Quick Filters**:
+  - 🏖️ **Beaches** (Anjuna, Calangute, Baga, Vagator, Palolem, Morjim, Butterfly Beach, etc.)
+  - 🏰 **Forts & Heritage** (Fort Aguada & Lighthouse, Chapora Fort, Cabo de Rama, Reis Magos, Terekhol)
+  - 🌊 **Waterfalls & Nature** (Dudhsagar Falls, Tambdi Surla, Hivre Falls, Charavane, Netravali, Bamanbudo, Mainapi, Kesarval Spring)
+  - ⛪ **Churches & Cathedrals** (Basilica of Bom Jesus, Se Cathedral, Church of Our Lady of the Immaculate Conception)
+  - 🛕 **Temples & Spiritual** (Shanta Durga, Mangueshi Temple, Tambdi Surla Mahadev)
+  - 🌿 **Wildlife & Spices** (Bhagwan Mahavir Wildlife Sanctuary, Sahakari Spice Farm)
+  - 🛍️ **Quarters & Markets** (Fontainhas Latin Quarter, Anjuna Flea Market, Mapusa Market)
+  - 🌅 **Viewpoints & Islands** (Divar Island, Chorao Island, Dona Paula Viewpoint)
+- **Search & Region Filtering**: Live search by name or taluka, filterable by *All Goa*, *North Goa*, *South Goa*, and *Panaji & Central*.
 
 ---
 
-### 🌴 3. Traveler Dashboard (`/dashboard`)
-- **Personalized Header**: Greets the traveler by name (*Welcome to Goa, Monali Dessai!*) without distracting logos.
-- **Top Categories Navigation**: Instant access to *Restaurants*, *Activities*, *Rentals*, *Taxi*, *Beach Shacks*, *Packages*, and *Events*.
-- **Dedicated "Restaurants & Dining" Tab**: Embeds the full restaurant discovery engine directly within the dashboard.
-- **Live Coastal Conditions**: Real-time temperature, sunset time, high/low tides, and Drishti Marine lifeguard safety flags (*Green Flag / Safe*).
-- **Active Trip Itineraries**: Daily morning, afternoon, and sunset stops with customizable schedules.
-- **AI Smart Concierge**: Context-aware recommendations for local dining, sunset spots, and coastal safety.
+### 🏛️ 2. Place Detail Page (`/places/[slug]`)
+Faithfully styled to mirror the modern layout of `goa.app` (e.g., `/places/anjuna-beach`, `/places/fort-aguada`):
+- **Hero Image & Thumbnail Strip**: Full-width rounded hero banner with category tag on top-right (`Beaches`, `Forts & Heritage`, etc.) and an interactive thumbnail strip beneath to switch preview photos.
+- **Official Destination Data**:
+  - Full address, GPS coordinates, Google Maps one-click directions (`Get Directions`).
+  - Visiting hours, official entry fees (e.g., ASI entry for Fort Aguada), and best times to visit.
+  - Authentic history, architectural notes, and cultural significance.
+  - Practical traveler tips and official guidelines (respecting heritage sites, modesty, footwear, and anti-littering rules).
+- **Beach Safety Status**: Dynamic safety banner with Drishti Marine lifeguard advisories, flag status (*Safe / Caution / High Risk*), and swim zone alerts.
+- **Popular Experiences Sidebar**: Related bookable activities with verified thumbnails (e.g., *Flyboarding* in Chapora, *Vagator Beach Photography Packages by VsnapU*, *Grand Island Scuba Diving*).
 
 ---
 
-### 🔑 4. Authentication & "Continue with Google"
+### 📊 3. Verified Reviews & Interactive Pie Chart Rating
+Implemented for both **Places** and **Restaurants**:
+- **Rating Pie Chart**: Visual breakdown rendering percentage and color-coded segments:
+  - 🟩 **5 Stars (Excellent)**: Emerald Green
+  - 🟢 **4 Stars (Very Good)**: Amber Green
+  - 🟡 **3 Stars (Average)**: Yellow / Amber
+  - 🟠 **2 Stars (Poor)**: Orange
+  - 🔴 **1 Star (Terrible)**: Rose Red
+- **Interactive Review Submission**: Verified traveler name, star selector (1 to 5), and review comment with instant UI update.
+- **Local Persistence & Supabase Integration**: Stores user reviews with timestamps and ratings.
+
+---
+
+### 🍽️ 4. Food & Restaurant Discovery (`/restaurants`)
+- **Dining Filter Pills**: Quick filter by *All Types*, *Casual Dining*, *Family Style*, *Pure Vegetarian*, *Beach Shacks*, *Multi Cuisine*, and *Boutique Cafes*.
+- **Featured Dining Offers Carousel**: Horizontal scroll showcasing exclusive partner promotions (*Flat 10% Off*, *Flat 15% Off*, *Flat 20% Off*) with brand tags.
+- **Restaurant Detail Pages (`/restaurants/[id]`)**:
+  - Full-width hero banner with gallery.
+  - **Interactive Offers Section**: Peach cards with orange accent borders, coupon copy, and unlock mechanisms.
+  - **Embedded Google Maps**: Exact street address, interactive map, and floating navigation buttons.
+  - **Menu & Bill Calculator**: Categorized dishes with dietary badges (Veg / Non-Veg) and quick order builder.
+  - **Sticky Table Reservation Widget**: Date, time slot, party size, and seating preference with automated booking confirmation pass (`GOA-XXXXXX`).
+
+---
+
+### 👤 5. Traveler Dashboard (`/dashboard`)
+- **Personalized Header**: Greets travelers by name with clean modern typography.
+- **Top Categories Navigation**: Instant shortcuts to *Places*, *Restaurants*, *Activities*, *Rentals*, *Taxi*, and *Events*.
+- **Live Coastal Conditions**: Real-time temperature, sunset time, high/low tides, and Drishti Marine lifeguard flags (*Green Flag / Safe*).
+- **Active Trip Itineraries**: Curated morning, afternoon, and sunset schedules.
+- **AI Smart Concierge**: Context-aware recommendations for local attractions, hidden waterfalls, and coastal dining.
+
+---
+
+### 🔐 6. Authentication & Roles
 - **Dual-Mode Google Sign-In**:
-  - **Production Mode**: Connects directly with Google Cloud OAuth using `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
-  - **Instant Local/Demo Mode**: If Google Cloud keys aren't set up, clicking **"Continue with Google"** launches an authentic Google Account Selector dialog (*Monali Dessai*, *Goa Explorer*, or custom Google email) that instantly establishes a real session in Supabase Auth.
-- **Email & Password Login / Signup** with Zod validation.
-- **Magic Link Login**: Passwordless one-time login links dispatched to email.
-- **Role-Based Access Control (RBAC)**: Supports `user`, `place_incharge`, and `platform_admin`.
+  - **Production Mode**: Full Google Cloud OAuth integration.
+  - **Instant Local/Demo Mode**: Built-in Google Account Selector (*Monali Dessai* / custom) providing immediate zero-config login with valid Supabase Auth sessions.
+- **Role-Based Access Control (RBAC)**:
+  - `user`: Tourist traveler dashboard, bookings, favorites, reviews.
+  - `place_incharge`: Verified place manager and venue editor.
+  - `platform_admin`: Central platform management portal (`/admin`).
 
 ---
 
-## 🛠️ Tech Stack
+## 💻 Tech Stack
 
 | Layer | Technologies |
 |---|---|
-| **Frontend** | Next.js 14 (App Router), TypeScript, Tailwind CSS, Lucide React, Sonner (Toasts) |
-| **State Management** | Zustand (Global & Auth Store), TanStack React Query |
-| **Form Handling** | React Hook Form, Zod validation |
-| **Database & Auth** | Supabase (PostgreSQL, GoTrue Auth, Row-Level Security, Storage) |
-| **Maps & Location** | Embedded Google Maps with direct deep-linking |
-| **AI Recommendation** | FastAPI (Python 3.12), Uvicorn microservice |
-| **Vector Search** | Qdrant Vector Database |
+| **Frontend** | Next.js 14 (App Router), TypeScript, Tailwind CSS, Lucide React, Sonner |
+| **State & Cache** | TanStack React Query, Zustand, LocalStorage persistence |
+| **Database & Auth** | Supabase (PostgreSQL 15, GoTrue Auth, Row-Level Security, Storage API) |
+| **Vector DB & AI** | Qdrant Vector Database, FastAPI (Python 3.12 microservice) |
 | **Containerization** | Docker, Docker Compose |
 
 ---
 
-## 🚀 How to Run the Project
+## 🚀 Running the Project
 
 ### Prerequisites
-Make sure you have installed and running:
-1. **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** (must be running in the background)
-2. **[Node.js](https://nodejs.org/)** (v18 or v20+)
-3. **[Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started)** (installed globally via `npm install -g supabase` or winget/brew)
+* **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** installed and running.
+* **[Node.js](https://nodejs.org/)** (v18 or v20+) installed.
 
 ---
 
-### Step-by-Step Instructions
+### Option A: Run All Services via Docker (Recommended)
 
-Open your terminal in **VS Code** (`Ctrl + \``) in the project root directory:
+Start the entire stack (Frontend, AI Service, Supabase PostgreSQL, Studio, and Qdrant) with one command:
 
-#### 1️⃣ Start Supabase (Database & Auth)
-```powershell
-npm run supabase:start
-```
-> ⏳ *Wait until it completes and outputs your local API URL (`http://127.0.0.1:54321`) and Studio URL.*
+1. Open your terminal in VS Code (<kbd>Ctrl</kbd> + <kbd>`</kbd>).
+2. Start the containers:
+   ```powershell
+   docker compose up -d
+   ```
+3. Open your browser:
+   * **Goa Tourism PWA (Frontend)**: [http://localhost:3000](http://localhost:3000)
+   * **Places Directory**: [http://localhost:3000/places](http://localhost:3000/places)
+   * **Restaurants Directory**: [http://localhost:3000/restaurants](http://localhost:3000/restaurants)
+   * **Supabase Studio GUI**: [http://localhost:54323](http://localhost:54323)
+   * **AI Microservice Swagger Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
+   * **Qdrant Dashboard**: [http://localhost:6333/dashboard](http://localhost:6333/dashboard)
 
-#### 2️⃣ Start the Application Containers
-```powershell
-npm run docker:dev
-```
-> ⏳ *Wait until you see:*
-> ```
-> goa-frontend  |  ✓ Ready in 2.3s
-> ```
-
-#### 3️⃣ Open in Browser
-Open your browser and navigate to:
-```
-http://localhost:3000
-```
+4. To stop all containers:
+   ```powershell
+   docker compose down
+   ```
 
 ---
 
-### 🛑 How to Stop the App
+### Option B: Local VS Code Development with Instant Hot-Reload
 
-```powershell
-# Stop app containers
-npm run docker:down
+When editing React/Next.js components and you want instant Fast Refresh:
 
-# Stop local Supabase
-npm run supabase:stop
-```
+1. Keep database & AI services running in Docker, but stop the containerized frontend to free port `3000`:
+   ```powershell
+   docker stop goa-frontend
+   ```
+2. Start the Next.js dev server locally from the root folder:
+   ```powershell
+   npm run dev
+   ```
+3. Visit [http://localhost:3000](http://localhost:3000). Every change you save in VS Code will update in the browser immediately.
 
 ---
 
-## 🧭 Key Routes & URLs
+## 🗺️ Key Routes
 
-| Page | URL | Description |
+| Route | URL | Description |
 |---|---|---|
-| **Home Page** | `http://localhost:3000` | Landing page |
-| **Restaurants Listing** | `http://localhost:3000/restaurants` | Full dining discovery page with filters & offers |
-| **MO's Cafe (Detail Page)** | `http://localhost:3000/restaurant/mos-cafe-panjim-goa` | goa.app layout with Google Maps & Offers |
-| **Fortune's Feast (Detail Page)** | `http://localhost:3000/restaurants/fortunes-feast` | Restaurant detail page |
-| **Gunpowder Assagao (Detail Page)** | `http://localhost:3000/restaurants/gunpowder` | Restaurant detail page |
-| **Traveler Dashboard** | `http://localhost:3000/dashboard` | Personalized hub with dining tab & live weather |
-| **Sign In** | `http://localhost:3000/login` | Email/password or **Continue with Google** |
-| **Sign Up** | `http://localhost:3000/signup` | New traveler registration |
+| **Home Page** | `http://localhost:3000` | Landing page & hero destination search |
+| **Places Directory** | `http://localhost:3000/places` | 46 places with category banners & filters |
+| **Fort Aguada & Lighthouse** | `http://localhost:3000/places/fort-aguada` | Historic 1612 fort with 6 official photos & ASI data |
+| **Anjuna Beach** | `http://localhost:3000/places/anjuna-beach` | Beach safety advisory, gallery & popular experiences |
+| **Dudhsagar Waterfall** | `http://localhost:3000/places/dudhsagar-waterfall` | 4x4 safari, forest entry & waterfall gallery |
+| **Restaurants Directory** | `http://localhost:3000/restaurants` | Dining directory with category pills & promo codes |
+| **Restaurant Detail** | `http://localhost:3000/restaurants/mos-cafe-panjim-goa` | Dining detail page with menu & table booking |
+| **Traveler Dashboard** | `http://localhost:3000/dashboard` | Coastal conditions, itinerary planner & AI concierge |
 | **Admin Portal** | `http://localhost:3000/admin` | Platform administration (`platform_admin` role) |
-| **Place Manager** | `http://localhost:3000/place/dashboard` | Place owner management (`place_incharge` role) |
-| **Supabase Studio** | `http://127.0.0.1:54323` | Local database & table management GUI |
-| **AI Recommendation Service** | `http://localhost:8000/health` | FastAPI health check endpoint |
-| **Qdrant Vector DB** | `http://localhost:6333/dashboard` | Qdrant web dashboard |
+| **Partner Portal** | `http://localhost:3000/place/dashboard` | Place owner management (`place_incharge` role) |
 
 ---
 
-## 🔐 Default Credentials
+## 🔑 Demo & Test Credentials
 
-| Role | Email | Password |
+| Role | Email | Password / Access |
 |---|---|---|
+| **Tourist (Google Demo)** | `monalidesai@gmail.com` | Click **"Continue with Google"** → Select *Monali Dessai* |
 | **Platform Admin** | `admin@goa.app` | `Password123!` |
 | **Place Incharge** | `partner@goa.app` | `Password123!` |
-| **Tourist (Google Demo)** | `monalidesai@gmail.com` | *Click "Continue with Google" -> Monali Dessai* |
 
 ---
 
-## 📁 Project Structure
+## 📁 Project Directory Structure
 
 ```
 Goa Tourism PWA/
-├── docker-compose.yml           # Production Docker Compose orchestration
-├── docker-compose.dev.yml       # Development Docker Compose overrides
-├── package.json                 # Root automation scripts
-├── README.md                    # Project documentation
-├── frontend/                    # Next.js 14 App Router Frontend
-│   ├── app/                     # Next.js App Router
-│   │   ├── (auth)/              # Authentication routes (login, signup, unauthorized)
-│   │   ├── (user)/              # User-facing routes
-│   │   │   ├── dashboard/       # Traveler dashboard page
-│   │   │   ├── explore/         # Places & activities discovery
-│   │   │   ├── profile/         # User profile settings
-│   │   │   ├── restaurant/[id]/ # Singular restaurant detail route
-│   │   │   ├── restaurants/     # Restaurant listing & dynamic detail routes
-│   │   │   └── trips/           # Itinerary builder
-│   │   ├── (admin)/             # Admin management portal
-│   │   ├── (place)/             # Venue incharge management portal
-│   │   ├── auth/callback/       # OAuth callback handler
-│   │   └── layout.tsx           # Global root layout
-│   ├── components/              # Modular UI components
-│   │   ├── auth/                # LoginForm, SignupForm
-│   │   ├── dashboard/           # TouristDashboardClient
-│   │   ├── restaurants/         # RestaurantsViewClient, RestaurantDetailClient
-│   │   └── ui/                  # Reusable UI elements (Button, Card, Input, Label, Sonner)
+├── frontend/                     # Next.js 14 App Router application
+│   ├── app/                      # Page routes & layouts
+│   │   ├── (user)/               # Tourist & public routes (/places, /restaurants, /dashboard)
+│   │   ├── (admin)/              # Admin portal
+│   │   └── (auth)/               # Login & Signup routes
+│   ├── components/               # React UI components
+│   │   ├── places/               # PlacesViewClient, PlaceDetailClient
+│   │   ├── restaurants/          # RestaurantsViewClient, RestaurantDetailClient
+│   │   ├── dashboard/            # TouristDashboardClient
+│   │   └── ui/                   # RatingPieChart, Buttons, Dialogs, Toasts
 │   └── lib/
-│       ├── data/                # restaurantsData.ts (comprehensive restaurant directory)
-│       ├── stores/              # Zustand stores (authStore)
-│       ├── supabase/            # Supabase browser, server & middleware clients
-│       └── validations/         # Zod validation schemas
-├── ai-service/                  # FastAPI AI recommendation microservice
-│   ├── main.py                  # API endpoints
-│   └── requirements.txt         # Python dependencies
-└── supabase/                    # Local Supabase configuration
-    ├── config.toml              # Supabase local environment config
-    ├── seed.sql                 # Initial seed data
-    └── migrations/              # PostgreSQL schema migrations
+│       ├── data/                 # placesData.ts (all 46 destinations & experiences)
+│       └── supabase/             # Supabase client (browser & server SSR)
+├── ai-service/                   # FastAPI recommendation microservice (Python 3.12)
+├── supabase/                     # Supabase migrations, seed.sql, config
+├── docker-compose.yml            # Multi-container orchestration
+└── README.md                     # Project documentation
 ```
-
----
-
-## 💡 Troubleshooting
-
-- **Port 3000 already in use**:
-  ```powershell
-  # Find process using port 3000
-  netstat -ano | findstr :3000
-  # Terminate process
-  taskkill /PID <PID_NUMBER> /F
-  ```
-- **Supabase CLI permission error on Windows**:
-  Run your VS Code or terminal as **Administrator**, then re-run `npm run supabase:start`.
-- **Containers not refreshing changes**:
-  Run `docker restart goa-frontend` or restart the dev stack with `npm run docker:down` followed by `npm run docker:dev`.
-
----
-
-Licensed under the MIT License. Built for Goa Tourism.
